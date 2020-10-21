@@ -17,13 +17,25 @@ def encrypt_vigenere(plaintext: str, keyword: str) -> str:
         j = ord(plaintext[i]) + ord(kwcp[i]) - 65
         s = ord(plaintext[i])
         if (j > 90) and (s < 91):
-            ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65 - 26)
+            if plaintext[i].isalpha() == True:
+                ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65 - 26)
+            else:
+                ciphertext += plaintext[i]
         elif (j <= 90) and (s < 91):
-            ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65)
-        elif (s > 96) and (j > 123):
-            ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65 - 26)
+            if plaintext[i].isalpha() == True:
+                ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65)
+            else:
+                ciphertext += plaintext[i]
+        elif (s > 96) and (j > 122):
+            if plaintext[i].isalpha() == True:
+                ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65 - 26)
+            else:
+                ciphertext += plaintext[i]
         else:
-            ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65)
+            if plaintext[i].isalpha() == True:
+                ciphertext += chr(ord(plaintext[i]) + ord(kwcp[i]) - 65)
+            else:
+                ciphertext += plaintext[i]
     return ciphertext
 
 
@@ -46,13 +58,23 @@ def decrypt_vigenere(ciphertext: str, keyword: str) -> str:
         j = ord(ciphertext[i]) - ord(kwcp[i]) + 65
         s = ord(ciphertext[i])
         if (j < 65) and (s < 91):
-            plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65 + 26)
+            if ciphertext[i].isalpha() == True:
+                plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65 + 26)
+            else:
+                plaintext += ciphertext[i]
         elif (j >= 65) and (s < 91):
-            plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65)
+            if ciphertext[i].isalpha() == True:
+                plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65)
+            else:
+                plaintext += ciphertext[i]
         elif (s > 96) and (j < 96):
-            plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65 + 26)
+            if ciphertext[i].isalpha() == True:
+                plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65 + 26)
+            else:
+                plaintext += ciphertext[i]
         else:
-            plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65)
+            if ciphertext[i].isalpha() == True:
+                plaintext += chr(ord(ciphertext[i]) - ord(kwcp[i]) + 65)
+            else:
+                plaintext += ciphertext[i]
     return plaintext
-
-print(encrypt_vigenere("PYTHON", "A"))
