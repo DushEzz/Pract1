@@ -28,6 +28,7 @@ def group(values: List[str], n: int) -> List[List[str]]:
     >>> group([1,2,3,4,5,6,7,8,9], 3)
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
     """
+    return [[List[i] for i in range(j * n, (j + 1) * n)] for j in range(n)]
     pass
 
 
@@ -143,7 +144,6 @@ def generate_sudoku(N: int) -> List[List[str]]:
     True
     """
     pass
-
 
 if __name__ == '__main__':
     for fname in ['puzzle1.txt', 'puzzle2.txt', 'puzzle3.txt']:
