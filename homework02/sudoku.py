@@ -71,6 +71,8 @@ def get_block(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    posb = ((pos[0] // 3) * 3, (pos[1] // 3) * 3) #Первый элемент данного блока
+    return [grid[i][j] for i in range(posb[0], posb[0] + 3) for j in range(posb[1], posb[1] + 3)]
     pass
 
 
