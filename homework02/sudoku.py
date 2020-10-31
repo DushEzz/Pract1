@@ -94,6 +94,7 @@ def find_empty_positions(grid: List[List[str]]) -> Optional[Tuple[int, int]]:
                 k = 1
                 s.append(grid.index(i))
                 s.append(i.index(j))
+                break
         if k == 1:
             break
     return tuple(s)
@@ -125,7 +126,7 @@ def find_possible_values(grid, pos):
     pass
 
 
-def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
+def solve(grid):
     """ Решение пазла, заданного в grid """
     """ Как решать Судоку?
         1. Найти свободную позицию
@@ -138,6 +139,18 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
     >>> solve(grid)
     [['5', '3', '4', '6', '7', '8', '9', '1', '2'], ['6', '7', '2', '1', '9', '5', '3', '4', '8'], ['1', '9', '8', '3', '4', '2', '5', '6', '7'], ['8', '5', '9', '7', '6', '1', '4', '2', '3'], ['4', '2', '6', '8', '5', '3', '7', '9', '1'], ['7', '1', '3', '9', '2', '4', '8', '5', '6'], ['9', '6', '1', '5', '3', '7', '2', '8', '4'], ['2', '8', '7', '4', '1', '9', '6', '3', '5'], ['3', '4', '5', '2', '8', '6', '1', '7', '9']]
     """
+    if grid[0].count('.') + grid[1].count('.') + grid[2].count('.') + grid[3].count('.') + grid[4].count('.') + grid[5].count('.') + grid[6].count('.') + grid[7].count('.') + grid[8].count('.') > 1:
+        for i in find_possible_values(grid, find_empty_positions(grid)):
+            r, c = find_empty_positions(grid)
+            grid[r][c] = i
+            solve(grid)
+            if grid[0].count('.') + grid[1].count('.') + grid[2].count('.') + grid[3].count('.') + grid[4].count('.') + grid[5].count('.') + grid[6].count('.') + grid[7].count('.') + grid[8].count('.') == 0:
+                break
+            else:
+                grid[r][c] = '.'
+    else:
+        grid[find_empty_positions(grid)[0]][find_empty_positions(grid)[1]] = list(find_possible_values(grid, find_empty_positions(grid)))[0]
+    return grid
     pass
 
 
