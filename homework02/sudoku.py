@@ -201,11 +201,19 @@ def generate_sudoku(N: int) -> List[List[str]]:
     >>> check_solution(solution)
     True
     """
+    s = [['1','2','3','4','5','6','7','8','9'], ['4','5','6','7','8','9','1','2','3'], ['7','8','9','1','2','3','4','5','6'], ['2','3','4','5','6','7','8','9','1'], ['5','6','7','8','9','1','2','3','4'], ['8','9','1','2','3','4','5','6','7'], ['3','4','5','6','7','8','9','1','2'], ['6','7','8','9','1','2','3','4','5'], ['9','1','2','3','4','5','6','7','8']]
     if N == 0:
         return [['.' for j in range(9)] for i in range(9)]
     elif N >= 81:
-        return [[str(j) for j in range(1, 10)] for i in range(9)]
+        return s
     else:
+        for i in range(((81 - N) // 9) + 1):
+            if i != (81 - N) // 9:
+                s[i] = ['.','.','.','.','.','.','.','.','.']
+            else:
+                for j in range((81 - N) % 9):
+                    s[i][j] = '.'
+        return s
     pass
 
 
@@ -219,6 +227,7 @@ def run_solve(filename: str) -> None:
 
 import multiprocessing
 import time
+import threading
 
 if __name__ == "__main__":
     for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
