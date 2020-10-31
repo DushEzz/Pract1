@@ -154,9 +154,30 @@ def solve(grid):
     pass
 
 
-def check_solution(solution: List[List[str]]) -> bool:
+def check_solution(solution):
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
+    bo = True
+    for i in range(9):
+        for j in range(9):
+            r = []
+            c = []
+            b = []
+            for k in get_row(solution, (i, j)):
+                r.append(int(k))
+            for k in get_col(solution, (i, j)):
+                c.append(int(k))
+            for k in get_block(solution, (i, j)):
+                b.append(int(k))
+            r.sort()
+            c.sort()
+            b.sort()
+            if not (b == [1, 2, 3, 4, 5, 6, 7, 8, 9] and r == [1, 2, 3, 4, 5, 6, 7, 8, 9] and c == [1, 2, 3, 4, 5, 6, 7, 8, 9]):
+                bo = False
+                break
+        if bo == False:
+            break
+    return bo
     pass
 
 
@@ -184,12 +205,19 @@ def generate_sudoku(N: int) -> List[List[str]]:
     """
     pass
 
-if __name__ == '__main__':
-    for fname in ['puzzle1.txt', 'puzzle2.txt', 'puzzle3.txt']:
-        grid = read_sudoku(fname)
-        display(grid)
-        solution = solve(grid)
-        if not solution:
-            print(f"Puzzle {fname} can't be solved")
-        else:
-            display(solution)
+
+def run_solve(filename: str) -> None:
+    grid = read_sudoku(filename)
+    start = time.time()
+    solve(grid)
+    end = time.time()
+    print(f"{filename}: {end-start}")
+
+
+import multiprocessing
+import time
+
+if __name__ == "__main__":
+    for filename in ("puzzle1.txt", "puzzle2.txt", "puzzle3.txt"):
+        p = multiprocessing.Process(target=run_solve, args=(filename,))
+        p.start()
