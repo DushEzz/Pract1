@@ -71,8 +71,15 @@ def get_block(grid: List[List[str]], pos: Tuple[int, int]) -> List[str]:
     >>> get_block(grid, (8, 8))
     ['2', '8', '.', '.', '.', '5', '.', '7', '9']
     """
+    if len(grid) != 9:
+        n = [[], [], [], [], [], [], [], [], []]
+        for i in range(9):
+            for j in range(9):
+                n[i].append(grid[(i * 9):(i + 1) * 9 - 1])
+    else:
+        n = grid
     posb = ((pos[0] // 3) * 3, (pos[1] // 3) * 3) #Первый элемент данного блока
-    return [grid[i][j] for i in range(posb[0], posb[0] + 3) for j in range(posb[1], posb[1] + 3)]
+    return [n[i][j] for i in range(posb[0], posb[0] + 3) for j in range(posb[1], posb[1] + 3)]
     pass
 
 
@@ -152,25 +159,25 @@ def solve(grid: List[List[str]]) -> Optional[List[List[str]]]:
     pass
 
 
-def check_solution(solution: List[List[str]]) -> bool:
+def check_solution(solution):
     """ Если решение solution верно, то вернуть True, в противном случае False """
     # TODO: Add doctests with bad puzzles
     bo = True
     for i in range(9):
         for j in range(9):
-            r = []
-            c = []
-            b = []
+            r = ['1','2','3','4','5','6','7','8','9']
+            b = ['1','2','3','4','5','6','7','8','9']
+            c = ['1','2','3','4','5','6','7','8','9']
             for k in get_row(solution, (i, j)):
-                r.append(int(k))
+                if k in r:
+                    r.remove(k)
             for k in get_col(solution, (i, j)):
-                c.append(int(k))
+                if k in c:
+                    c.remove(k)
             for k in get_block(solution, (i, j)):
-                b.append(int(k))
-            r.sort()
-            c.sort()
-            b.sort()
-            if not (b == [1, 2, 3, 4, 5, 6, 7, 8, 9] and r == [1, 2, 3, 4, 5, 6, 7, 8, 9] and c == [1, 2, 3, 4, 5, 6, 7, 8, 9]):
+                if k in b:
+                    b.remove(k)
+            if not (b == [] and r == [] and c == []):
                 bo = False
                 break
         if bo == False:
